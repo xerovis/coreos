@@ -1,0 +1,28 @@
+#cloud-config
+
+#Server Hostname
+hostname: b4
+
+#SSH keys
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxT70toauaGcFqha9dZFHHc7tsSUf9nqbnVZc8GdOGAKc8uFLe+cU0iajeu6o1bUUKnUr1to7OOwcXE29vgtyjdkGd0UIo7hI9jyqkfd8ouHqvH1q0NIw7KQdx7tqafbHYLP2vToWWkK0DfamBpQzW/jFv9nsXe8w/S6NpPxPtXrNnUVnMaAjOhrr/aGJ2AH1f3RQmjsXVA8ESyhwY0TRlEY3iw94ywOKXuEAIuD/Td9qdog1Dp5e08omc0rA0Gqab9PgnajaSKXSXrGOl7grRyv+BggTCZUynAYQhQyaSsRG6TkDFYQyEAlxktK3IojnYyj9q1866rDZYloB01Thd
+
+coreos:
+    etcd2:
+    discovery: https://discovery.etcd.io/e273d2adbd3d2ff1d1f462284631b8f0
+
+    units:
+    - name: etcd2.service
+        command: start
+    - name: 00-eno1.network
+        runtime: true
+        content: |
+        [Match]
+        Name=eno1
+
+        [Network]
+        Address=119.148.85.30
+        Gateway=119.148.85.1
+        Subnet=255.255.255.224
+        DNS=8.8.8.8
+        DNS=8.8.4.4
